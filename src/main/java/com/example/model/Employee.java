@@ -1,10 +1,9 @@
 package com.example.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -13,6 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "Employee")
 public class Employee extends BaseModel {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO )
+    private Long id ;
 
     @Column(name = "first_name")
     private String firstName ;

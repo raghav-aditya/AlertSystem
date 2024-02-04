@@ -1,8 +1,6 @@
 package com.example.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="instances_occurred_table")
-public class InstancesOccuredTable {
+@Table(name="instances_occurred")
+public class InstancesOccured {
 
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO )
+    private Long id ;
     @Column(name="incident")
     private String incident ;
     @Column(name ="is_picked")
