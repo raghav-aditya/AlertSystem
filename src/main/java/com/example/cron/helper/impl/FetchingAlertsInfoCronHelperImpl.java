@@ -4,6 +4,7 @@ package com.example.cron.helper.impl;
 import com.example.enums.AlertSeverity;
 import com.example.enums.Team;
 import com.example.model.AlertDB;
+import com.example.model.Employee;
 import com.example.model.InstancesOccured;
 import com.example.services.AlertDBRepository;
 import com.example.services.EmployeeRepository;
@@ -71,12 +72,11 @@ public class FetchingAlertsInfoCronHelperImpl {
                 twilioService.sendWhatsAppNotification( onCallFromTeam , alert.getAlertName() );
             }
         }
-
     }
 
     private String getOncallFromTeam(String team) {
-
-        return "";
+            List<Employee> employeeList = employeeRepository.findOnCallEmployeesByTeam(team);
+            return employeeList.get(0).getPhoneNum();
     }
 
     private void updateMetaData(AlertDB alert, Map<String, Object> metaData) {
