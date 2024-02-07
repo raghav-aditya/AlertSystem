@@ -15,4 +15,8 @@ public interface Constants {
         final String ALERT_FETCH_CRON = "ALERT_FETCH_CRON";
     }
 
+    public interface TwilioMessageTemplate{
+        String CALL_TEMPLATE = "<Response><Say> IncidentOccured in ?team team of  ?severity severity , the incident is ?alertmessage </Say></Response>";
+    }
+
 }

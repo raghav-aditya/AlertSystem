@@ -1,6 +1,7 @@
 package com.example.cron.helper.impl;
 
 
+import com.example.enums.AlertSeverity;
 import com.example.enums.Team;
 import com.example.model.AlertDB;
 import com.example.model.InstancesOccured;
@@ -8,6 +9,7 @@ import com.example.services.AlertDBRepository;
 import com.example.services.EmployeeRepository;
 import com.example.services.InstancesOccuedRepository;
 import com.example.services.TwilioService;
+import com.example.utility.AppUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,8 +52,31 @@ public class FetchingAlertsInfoCronHelperImpl {
 
     private void processAlertNotifyEmployee(AlertDB alert) {
 
+        String severity = alert.getSeverity();
+        AlertSeverity alertSeverity = AlertSeverity.getSeverityByName(severity);
 
+        String onCallFromTeam = getOncallFromTeam(alert.getTeam());
 
+        switch ( alertSeverity ){
+            case CRITICAL ->{
+                twilioService.sendCallNotification( onCallFromTeam , AppUtils.getCallString(alert.getTeam(), severity , alert.getAlertName()) );
+            }
+            case HIGH -> {
+                twilioService.sendMessageNotification( onCallFromTeam ,  alert.getAlertName() );
+            }
+            case MEDIUM -> {
+                twilioService.sendEmailNotification( onCallFromTeam , alert.getAlertName() );
+            }
+            case CASUAL -> {
+                twilioService.sendWhatsAppNotification( onCallFromTeam , alert.getAlertName() );
+            }
+        }
+
+    }
+
+    private String getOncallFromTeam(String team) {
+
+        return "";
     }
 
     private void updateMetaData(AlertDB alert, Map<String, Object> metaData) {
